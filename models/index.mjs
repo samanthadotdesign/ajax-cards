@@ -3,6 +3,7 @@ import allConfig from '../config/config.js';
 
 import initGameModel from './game.mjs';
 import initUserModel from './user.mjs';
+import initGameUserModel from './gameUser.mjs'
 
 const env = process.env.NODE_ENV || 'development';
 
@@ -19,10 +20,11 @@ let sequelize = new Sequelize(
 
 db.Game = initGameModel(sequelize, Sequelize.DataTypes);
 db.User = initUserModel(sequelize, Sequelize.DataTypes);
+db.GameUser = initGameUserModel(sequelize, Sequelize.DataTypes);
 
 // Define the many-to-many join table 
-db.User.belongsToMany(db.Game, { through: 'games_users'})
-db.Game.belongsToMany(db.User, { through: 'games_users'})
+db.User.belongsToMany(db.Game, { through: db.GameUser })
+db.Game.belongsToMany(db.User, { through: db.GameUser })
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

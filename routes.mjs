@@ -17,6 +17,7 @@ export default function bindRoutes(app) {
   app.post('/login', UserController.login)
   app.post('/signup', UserController.signup)
 
-  app.get('/start', GameController.start)
+  app.post('/start', GameController.start)
+  app.post('/deal', GameController.deal)
 
 }

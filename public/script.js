@@ -27,6 +27,11 @@ startBtn.innerHTML = 'Start Game';
 startBtn.style.display = 'none'; 
 mainDiv.appendChild(startBtn);
 
+const dealBtn = document.createElement('button')
+dealBtn.innerHTML = 'Deal';
+dealBtn.style.display = 'none'; 
+mainDiv.appendChild(dealBtn);
+
 /* Post request if user logs in */ 
 loginBtn.addEventListener('click', async () => {
   // Hide the form + buttons
@@ -61,11 +66,32 @@ signupBtn.addEventListener('click', () => {
 
 /* Start button – creates game record in the DB */ 
 startBtn.addEventListener('click', () => {
+  // POST: manipulating the database
   axios
-  .get('/start')
+  .post('/start')
   .then( (result) => {
-    const { email, id } = result.data.opponent;
-    console.log(email)
+    // Display current player
+    const { email: playerEmail , id: playerId } = result.data.currentPlayer;
+    const currentPlayerDisplay = document.createElement('p');
+    currentPlayerDisplay.innerHTML = playerEmail;
+    mainDiv.appendChild(currentPlayerDisplay)
+
+    // Display opponent
+    const { email: oppEmail , id: oppId } = result.data.opponent;
+    const opponentDisplay = document.createElement('p');
+    opponentDisplay.innerHTML = oppEmail;
+    mainDiv.appendChild(opponentDisplay)
+
+    dealBtn.style.display = 'block'
+    startBtn.style.display = 'none'
   })
 })
 
+/* Deal button  */ 
+dealBtn.addEventListener('click', () => {
+  axios
+  .post('/deal')
+  .then( (result) => {
+    console.log(result.data)
+  })
+})

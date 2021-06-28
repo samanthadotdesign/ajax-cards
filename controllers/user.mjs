@@ -10,7 +10,6 @@ export default function initUserController(db) {
       const user = await db.User.findOne( { where: { email }})
 
     if (user) {
-      console.log('got user', user)
       // bcrypt.compare(userPassword, dbPassword) to compare  
       // results in a boolean
       const correctPassword = await bcrypt.compare(password, user.password)
@@ -19,7 +18,6 @@ export default function initUserController(db) {
         // req.cookie needs cookie-parser
         //  We must terminate the request-response cycle 
         // res.cookie does not terminate 
-        console.log('code is running')
         res.cookie('userId', user.id);
         res.cookie('loggedIn', 'true');
         res.end();
